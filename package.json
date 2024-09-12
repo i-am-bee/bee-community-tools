@@ -1,0 +1,112 @@
+{
+  "name": "bee-community-tools",
+  "version": "0.0.1",
+  "license": "Apache-2.0",
+  "description": "Bee",
+  "author": "IBM Corp.",
+  "contributors": [
+    "Tomas Dvorak <tomas.dvorak@ibm.com>"
+  ],
+  "keywords": [
+    "Bee Agent Framework Community Tools"
+  ],
+  "packageManager": "yarn@4.1.1",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./*": {
+      "import": {
+        "types": "./dist/*.d.ts",
+        "default": "./dist/*.js"
+      },
+      "require": {
+        "types": "./dist/*.d.cts",
+        "default": "./dist/*.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "homepage": "https://github.com/i-am-bee/bee-community-tools#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/i-am-bee/bee-community-tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/i-am-bee/bee-community-tools/issues"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "yarn clean && yarn ts:check && tsup",
+    "ts:check": "tsc --noEmit && tsc -p tsconfig.examples.json --noEmit",
+    "start": "tsx --tsconfig tsconfig.examples.json",
+    "lint": "yarn eslint",
+    "lint:fix": "yarn eslint --fix",
+    "format": "yarn prettier --check .",
+    "format:fix": "yarn prettier --write .",
+    "test:unit": "vitest run src",
+    "test:unit:watch": "vitest run src",
+    "test:e2e": "vitest run tests",
+    "test:e2e:watch": "vitest watch tests",
+    "test:all": "vitest run",
+    "test:watch": "vitest watch",
+    "prepare": "husky",
+    "copyright": "./scripts/copyright.sh",
+    "release": "release-it",
+    "_ensure_env": "cp -n .env.template .env || true"
+  },
+  "peerDependencies": {
+    "bee-agent-framework": "^0.0.14"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.4.1",
+    "@commitlint/config-conventional": "^19.4.1",
+    "@eslint/js": "^9.9.0",
+    "@eslint/markdown": "^6.0.0",
+    "@release-it/conventional-changelog": "^8.0.1",
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@swc/core": "^1.7.14",
+    "@types/eslint": "^9.6.1",
+    "@types/eslint-config-prettier": "^6.11.3",
+    "@types/eslint__js": "^8.42.3",
+    "@types/node": "^20.16.1",
+    "bee-agent-framework": "^0.0.14",
+    "dotenv": "^16.4.5",
+    "eslint": "^9.9.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-unused-imports": "^4.1.3",
+    "glob": "^11.0.0",
+    "husky": "^9.1.5",
+    "lint-staged": "^15.2.9",
+    "picocolors": "^1.0.1",
+    "pino-pretty": "^11.2.2",
+    "pino-test": "^1.0.1",
+    "prettier": "^3.3.3",
+    "release-it": "^17.6.0",
+    "rimraf": "^6.0.1",
+    "strip-ansi": "^7.1.0",
+    "temp-dir": "^3.0.0",
+    "tsc-files": "^1.1.4",
+    "tsup": "^8.2.4",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.2.0",
+    "vite-tsconfig-paths": "^5.0.1",
+    "vitest": "^2.0.5",
+    "yaml": "^2.5.0"
+  }
+}
