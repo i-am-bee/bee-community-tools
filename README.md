@@ -36,9 +36,11 @@ We provide an example agent in `src/index.ts` that you can use to test tools.
 ```shell
 yarn start
 ```
-
-The example agent is configured to use a BAM hosted LLM, make sure to create .env (from .env.template)
-and fill in the GENAI_API_KEY field with your BAM api key.
+  // use BAM if GENAI_API_KEY env var is defined
+  // else use OpenAI if OPENAI_API_KEY env var is defined
+  // else use Ollama
+The example agent is configured to use a BAM or OpenAI hosted LLM, or a local Ollama LLM. 
+If you are using a hosted LLM make sure to create .env (from .env.template) and fill in the necessary API_KEY.
 
 > [!NOTE]
 > The Hello World example tool is not enabled by default.
