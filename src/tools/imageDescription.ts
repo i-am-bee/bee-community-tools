@@ -58,7 +58,7 @@ async function queryVllmAPI(completionPrompt: VllmChatCompletionPrompt) {
     "Content-Type": "application/json",
   };
   if (process.env.OPENAI_API_KEY !== undefined) {
-    Object.assign(headers, { Authorization: process.env.OPENAI_API_KEY as string });
+    Object.assign(headers, { Authorization: `Bearer ${process.env.OPENAI_API_KEY as string}` });
   }
   const VllmResponse = await fetch(vllm_api_uri, {
     method: "POST",
