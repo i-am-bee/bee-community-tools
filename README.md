@@ -31,6 +31,12 @@ yarn install
 yarn start
 ```
 
+> [!NOTE]
+> The Hello World example tool is not enabled by default.
+
+> [!TIP]
+> Tools can be enabled/disabled in `src/index.ts`
+
 ## Contribution guidelines
 
 Bee Community Tools is an open-source project and we ❤️ contributions.
