@@ -18,7 +18,7 @@ Closes: #
 
 <!-- For completed items, change [ ] to [x]. -->
 
-- [ ] I have read the [contributor guide](https://github.com/i-am-bee/bee-agent-framework/blob/main/CONTRIBUTING.md)
+- [ ] I have read the [contributor guide](https://github.com/i-am-bee/bee-community-tools/blob/main/CONTRIBUTING.md)
 - [ ] Linting passes: `yarn lint` or `yarn lint:fix`
 - [ ] Formatting is applied: `yarn format` or `yarn format:fix`
 - [ ] Unit tests pass: `yarn test:unit`
