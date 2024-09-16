@@ -29,6 +29,7 @@ The tools in this repository are additional to those provided within the core be
 ```shell
 yarn install
 ```
+
 ### Run an example agent with tools
 
 We provide an example agent in `src/index.ts` that you can use to test tools.
@@ -36,10 +37,8 @@ We provide an example agent in `src/index.ts` that you can use to test tools.
 ```shell
 yarn start
 ```
-  // use BAM if GENAI_API_KEY env var is defined
-  // else use OpenAI if OPENAI_API_KEY env var is defined
-  // else use Ollama
-The example agent is configured to use a BAM or OpenAI hosted LLM, or a local Ollama LLM. 
+
+The example agent is configured to use a BAM or OpenAI hosted LLM, or a local Ollama LLM.
 If you are using a hosted LLM make sure to create .env (from .env.template) and fill in the necessary API_KEY.
 
 > [!NOTE]
