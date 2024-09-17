@@ -27,7 +27,8 @@ const exampleResponse = {
   docs: [
     {
       title: "Bee Framework",
-      publish_year: [2024],
+      first_publish_year: 2024,
+      publish_date: [2024],
     },
   ],
   num_found: 1,
@@ -68,7 +69,7 @@ describe("OpenLibraryTool", () => {
     const openLibraryResponse = await openLibraryTool.run({
       title: "Bee Framework",
     });
-    expect(openLibraryResponse.result).toEqual(exampleResponse);
+    expect(openLibraryResponse.result).toEqual(exampleResponse.docs);
   });
 
   test("Invalid json response", async () => {

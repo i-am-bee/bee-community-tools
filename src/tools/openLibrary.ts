@@ -28,7 +28,7 @@ import { createURLParams } from "bee-agent-framework/internals/fetcher";
 type ToolOptions = BaseToolOptions;
 type ToolRunOptions = BaseToolRunOptions;
 
-export interface OpenLibraryResponse {
+export interface OpenLibraryAPIResponse {
   numFound: number;
   start: number;
   numFoundExact: boolean;
@@ -102,11 +102,22 @@ export interface OpenLibraryResponse {
   }[];
 }
 
-export class OpenLibraryToolOutput extends JSONToolOutput<OpenLibraryResponse> {
-  isEmpty(): boolean {
-    return !this.result || this.result.numFound === 0 || this.result.docs.length === 0;
-  }
+interface OpenLibraryResponse {
+  title: string;
+  author_name: string[];
+  contributor: string[];
+  first_publish_year: number;
+  publish_date: number[];
+  language: string[];
+  publish_place: string[];
+  place: string[];
+  publisher: string[];
+  isbn: string[];
 }
+
+export interface OpenLibraryResponseList extends Array<OpenLibraryResponse> {}
+
+export class OpenLibraryToolOutput extends JSONToolOutput<OpenLibraryResponse> {}
 
 export class OpenLibraryTool extends Tool<OpenLibraryToolOutput, ToolOptions, ToolRunOptions> {
   name = "OpenLibrary";
@@ -143,7 +154,21 @@ export class OpenLibraryTool extends Tool<OpenLibraryToolOutput, ToolOptions, To
       ]);
     }
     try {
-      const json = await response.json();
+      const responseJson: OpenLibraryAPIResponse = await response.json();
+      const json: OpenLibraryResponseList = responseJson.docs.map((doc) => {
+        return {
+          title: doc.title,
+          author_name: doc.author_name,
+          contributor: doc.contributor,
+          first_publish_year: doc.first_publish_year,
+          publish_date: doc.publish_date,
+          language: doc.language,
+          publish_place: doc.publish_place,
+          place: doc.place,
+          publisher: doc.publisher,
+          isbn: doc.isbn,
+        };
+      });
       return new OpenLibraryToolOutput(json);
     } catch (e) {
       throw new ToolError("Request to Open Library has failed to parse!", [e]);
