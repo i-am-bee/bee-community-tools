@@ -77,13 +77,11 @@
     "@langchain/community": "~0.2.28",
     "@langchain/core": "~0.2.27",
     "@langchain/langgraph": "~0.0.34",
+    "bee-agent-framework": "^0.0.17",
     "groq-sdk": "^0.7.0",
     "ollama": "^0.5.8",
     "openai": "^4.56.0",
     "openai-chat-tokens": "^0.2.8"
-  },
-  "peerDependencies": {
-    "bee-agent-framework": "^0.0.14"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.4.1",
@@ -97,7 +95,6 @@
     "@types/eslint-config-prettier": "^6.11.3",
     "@types/eslint__js": "^8.42.3",
     "@types/node": "^20.16.1",
-    "bee-agent-framework": "^0.0.14",
     "dotenv": "^16.4.5",
     "eslint": "^9.9.0",
     "eslint-config-prettier": "^9.1.0",
