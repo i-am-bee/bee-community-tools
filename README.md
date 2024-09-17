@@ -10,7 +10,7 @@
   <h4 align="center">Agentic tools that support the Bee Agent Framework</h4>
 </p>
 
-The tools in this repository are additional to those provided within the core bee-agent-framework. They provide access to various functions that enable agents to connect to a variety of different capabilities. More information about developing tools for Bee can be founding the [tools documentation](https://github.com/i-am-bee/bee-agent-framework/blob/main/docs/tools.md).
+The tools in this repository are additional to those provided within the core bee-agent-framework. They provide access to various functions that enable agents to connect to a variety of different capabilities. More information about developing tools for Bee can be found in the [tools documentation](https://github.com/i-am-bee/bee-agent-framework/blob/main/docs/tools.md).
 
 ### 🛠️ Tools
 
@@ -22,14 +22,24 @@ The tools in this repository are additional to those provided within the core be
 
 ➕ [Request](https://github.com/i-am-bee/bee-community-tools/discussions)
 
-## Get started with Bee Community Tools
+## Getting started with Bee Community Tools
 
-### Installation and Example
+### Installation
 
 ```shell
 yarn install
+```
+
+### Run an example agent with tools
+
+We provide an example agent in `src/index.ts` that you can use to test tools.
+
+```shell
 yarn start
 ```
+
+The example agent is configured to use a BAM or OpenAI hosted LLM, or a local Ollama LLM.
+If you are using a hosted LLM make sure to create .env (from .env.template) and fill in the necessary API_KEY.
 
 > [!NOTE]
 > The Hello World example tool is not enabled by default.
