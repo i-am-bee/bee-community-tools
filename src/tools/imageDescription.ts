@@ -94,8 +94,6 @@ async function queryVllmAPI(completionPrompt: VllmChatCompletionPrompt) {
  * @returns A String description of the image.
  */
 async function requestImageDescriptionForURL(imageUrl: string, prompt: string): Promise<any> {
-  console.log(`Requesting image description with prompt: ${prompt} for image url: ${imageUrl}`);
-
   const modelPrompt: VllmChatCompletionPrompt = {
     model: vllm_api_model_id,
     messages: [
