@@ -107,7 +107,7 @@ interface OpenLibraryResponse {
   author_name: string[];
   contributor: string[];
   first_publish_year: number;
-  publish_date: number[];
+  publish_date: string[];
   language: string[];
   publish_place: string[];
   place: string[];
@@ -117,7 +117,7 @@ interface OpenLibraryResponse {
 
 export interface OpenLibraryResponseList extends Array<OpenLibraryResponse> {}
 
-export class OpenLibraryToolOutput extends JSONToolOutput<OpenLibraryResponse> {}
+export class OpenLibraryToolOutput extends JSONToolOutput<OpenLibraryResponseList> {}
 
 export class OpenLibraryTool extends Tool<OpenLibraryToolOutput, ToolOptions, ToolRunOptions> {
   name = "OpenLibrary";
