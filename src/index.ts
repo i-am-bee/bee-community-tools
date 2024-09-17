@@ -44,7 +44,7 @@ async function runBeeAgent() {
   // else use Ollama
   const llm =
     process.env.GENAI_API_KEY !== undefined
-      ? BAMChatLLM.fromPreset("meta-llama/llama-3-70b-instruct")
+      ? BAMChatLLM.fromPreset("meta-llama/llama-3-1-70b-instruct")
       : process.env.OPENAI_API_KEY !== undefined
         ? new OpenAIChatLLM()
         : new OllamaChatLLM({ modelId: "llama3.1" });
