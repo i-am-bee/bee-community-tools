@@ -23,6 +23,7 @@ import { TokenMemory } from "bee-agent-framework/memory/tokenMemory";
 import { Logger } from "bee-agent-framework/logger/logger";
 import { OllamaChatLLM } from "bee-agent-framework/adapters/ollama/chat";
 import { OpenAIChatLLM } from "bee-agent-framework/adapters/openai/chat";
+import { WatsonXChatLLM } from "bee-agent-framework/adapters/watsonx/chat";
 
 // core tools
 import { DuckDuckGoSearchTool } from "bee-agent-framework/tools/search/duckDuckGoSearch";
@@ -40,14 +41,25 @@ const logger = new Logger({ name: "app", level: "trace" });
 
 async function runBeeAgent() {
   // use BAM if GENAI_API_KEY env var is defined
+  // else use Watsonx if WATSONX_API_KEY and WATSONX_PROJECT_ID env vars are defined
   // else use OpenAI if OPENAI_API_KEY env var is defined
   // else use Ollama
   const llm =
     process.env.GENAI_API_KEY !== undefined
       ? BAMChatLLM.fromPreset("meta-llama/llama-3-1-70b-instruct")
-      : process.env.OPENAI_API_KEY !== undefined
-        ? new OpenAIChatLLM()
-        : new OllamaChatLLM({ modelId: "llama3.1" });
+      : process.env.WATSONX_API_KEY !== undefined && process.env.WATSONX_PROJECT_ID !== undefined
+        ? WatsonXChatLLM.fromPreset("meta-llama/llama-3-1-70b-instruct", {
+            apiKey: process.env.WATSONX_API_KEY, //pragma: allowlist secret
+            projectId: process.env.WATSONX_PROJECT_ID,
+            parameters: {
+              decoding_method: "greedy",
+              min_new_tokens: 5,
+              max_new_tokens: 50,
+            },
+          })
+        : process.env.OPENAI_API_KEY !== undefined
+          ? new OpenAIChatLLM()
+          : new OllamaChatLLM({ modelId: "llama3.1" });
 
   const agent = new BeeAgent({
     llm,
