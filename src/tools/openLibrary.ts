@@ -127,13 +127,13 @@ export class OpenLibraryTool extends Tool<OpenLibraryToolOutput, ToolOptions, To
   inputSchema() {
     return z
       .object({
-        title: z.string(),
-        author: z.string(),
-        isbn: z.string(),
-        subject: z.string(),
-        place: z.string(),
-        person: z.string(),
-        publisher: z.string(),
+        title: z.string().describe("The title or name of the book."),
+        author: z.string().describe("The author's name."),
+        isbn: z.string().describe("The book's International Standard Book Number (ISBN)."),
+        subject: z.string().describe("The subject or topic about which the book is written."),
+        place: z.string().describe("The place about which the book is written."),
+        person: z.string().describe("The person about which the book is written."),
+        publisher: z.string().describe("The company or name of the book's publisher."),
       })
       .partial();
   }
