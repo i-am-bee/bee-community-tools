@@ -23,7 +23,15 @@ import { TokenMemory } from "bee-agent-framework/memory/tokenMemory";
 import { Logger } from "bee-agent-framework/logger/logger";
 import { OllamaChatLLM } from "bee-agent-framework/adapters/ollama/chat";
 import { OpenAIChatLLM } from "bee-agent-framework/adapters/openai/chat";
+import { PromptTemplate } from "bee-agent-framework/template";
 import { WatsonXChatLLM } from "bee-agent-framework/adapters/watsonx/chat";
+import { z } from "zod";
+import {
+  BeeSystemPrompt,
+  BeeToolErrorPrompt,
+  BeeToolInputErrorPrompt,
+  BeeToolNoResultsPrompt,
+} from "bee-agent-framework/agents/bee/prompts";
 
 // core tools
 import { DuckDuckGoSearchTool } from "bee-agent-framework/tools/search/duckDuckGoSearch";
@@ -73,6 +81,39 @@ async function runBeeAgent() {
       new OpenLibraryTool(),
       new ImageDescriptionTool(),
     ],
+    templates: {
+      user: new PromptTemplate({
+        schema: z
+          .object({
+            input: z.string(),
+          })
+          .passthrough(),
+        template: `User: {{input}}`,
+      }),
+      system: BeeSystemPrompt.fork((old) => ({
+        ...old,
+        defaults: {
+          instructions: "You are a helpful assistant that uses tools to answer questions.",
+        },
+      })),
+      toolError: BeeToolErrorPrompt,
+      toolInputError: BeeToolInputErrorPrompt,
+      toolNoResultError: BeeToolNoResultsPrompt.fork((old) => ({
+        ...old,
+        template: `${old.template}\nPlease reformat your input.`,
+      })),
+      toolNotFoundError: new PromptTemplate({
+        schema: z
+          .object({
+            tools: z.array(z.object({ name: z.string() }).passthrough()),
+          })
+          .passthrough(),
+        template: `Tool does not exist!
+  {{#tools.length}}
+  Use one of the following tools: {{#trim}}{{#tools}}{{name}},{{/tools}}{{/trim}}
+  {{/tools.length}}`,
+      }),
+    },
   });
 
   const reader = createConsoleReader();
@@ -88,6 +129,7 @@ async function runBeeAgent() {
               totalMaxRetries: 10,
               maxIterations: 20,
             },
+            signal: AbortSignal.timeout(2 * 60 * 1000),
           },
         )
         .observe((emitter) => {
