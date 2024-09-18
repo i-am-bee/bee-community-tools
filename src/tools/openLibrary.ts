@@ -157,16 +157,16 @@ export class OpenLibraryTool extends Tool<OpenLibraryToolOutput, ToolOptions, To
       const responseJson: OpenLibraryAPIResponse = await response.json();
       const json: OpenLibraryResponseList = responseJson.docs.map((doc) => {
         return {
-          title: doc.title,
-          author_name: doc.author_name,
-          contributor: doc.contributor,
-          first_publish_year: doc.first_publish_year,
-          publish_date: doc.publish_date,
-          language: doc.language,
-          publish_place: doc.publish_place,
-          place: doc.place,
-          publisher: doc.publisher,
-          isbn: doc.isbn,
+          title: doc.title || "Unknown",
+          author_name: doc.author_name || [],
+          contributor: doc.contributor || [],
+          first_publish_year: doc.first_publish_year || 0,
+          publish_date: doc.publish_date || [],
+          language: doc.language || [],
+          publish_place: doc.publish_place || [],
+          place: doc.place || [],
+          publisher: doc.publisher || [],
+          isbn: doc.isbn || [],
         };
       });
       return new OpenLibraryToolOutput(json);
