@@ -22,12 +22,12 @@ import {
   ToolError,
   Tool,
 } from "bee-agent-framework/tools/base";
+import { getEnv } from "bee-agent-framework/internals/env";
 import { z } from "zod";
-import dotenv from "dotenv";
-dotenv.config();
 
-const vllm_api_endpoint: string = process.env.IMAGE_DESC_VLLM_API as string;
-const vllm_api_model_id: string = process.env.IMAGE_DESC_MODEL_ID as string;
+const vllmApiEndpoint = getEnv("IMAGE_DESC_VLLM_API");
+const vllmApiModelId = getEnv("IMAGE_DESC_MODEL_ID");
+const openApiKey = getEnv("OPENAI_API_KEY");
 
 type ToolOptions = BaseToolOptions;
 type ToolRunOptions = BaseToolRunOptions;
@@ -52,27 +52,27 @@ interface VllmChatCompletionPrompt {
 }
 
 async function queryVllmAPI(completionPrompt: VllmChatCompletionPrompt) {
-  const vllm_api_uri = `${vllm_api_endpoint}/v1/chat/completions`;
+  const vllmApiUrl = `${vllmApiEndpoint}/v1/chat/completions`;
   const headers = {
     "accept": "application/json",
     "Content-Type": "application/json",
   };
-  if (process.env.OPENAI_API_KEY !== undefined) {
-    Object.assign(headers, { Authorization: `Bearer ${process.env.OPENAI_API_KEY as string}` });
+  if (openApiKey !== undefined) {
+    Object.assign(headers, { Authorization: `Bearer ${openApiKey}` });
   }
-  const VllmResponse = await fetch(vllm_api_uri, {
+  const vllmResponse = await fetch(vllmApiUrl, {
     method: "POST",
     body: JSON.stringify(completionPrompt),
     headers: headers,
   });
 
-  if (!VllmResponse.ok) {
-    throw new ToolError(`Request to Vllm API has failed! ${VllmResponse.statusText}`, [
-      new Error(await VllmResponse.text()),
+  if (!vllmResponse.ok) {
+    throw new ToolError(`Request to Vllm API has failed! ${vllmResponse.statusText}`, [
+      new Error(await vllmResponse.text()),
     ]);
   }
   try {
-    const json = await VllmResponse.json();
+    const json = await vllmResponse.json();
     if (json.choices.length > 0) {
       // We have an answer
       const content = json.choices[0].message.content;
@@ -95,7 +95,7 @@ async function queryVllmAPI(completionPrompt: VllmChatCompletionPrompt) {
  */
 async function requestImageDescriptionForURL(imageUrl: string, prompt: string): Promise<any> {
   const modelPrompt: VllmChatCompletionPrompt = {
-    model: vllm_api_model_id,
+    model: vllmApiModelId,
     messages: [
       {
         role: "user",
