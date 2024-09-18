@@ -35,8 +35,6 @@ describe("Open Library", () => {
       },
     );
 
-    console.log(JSON.stringify(response, null, 2));
-
     expect(response.isEmpty()).toBe(false);
     expect(response.result.length).toBeGreaterThanOrEqual(20);
     response.result.forEach((book) => {
