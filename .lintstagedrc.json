@@ -1,4 +1,6 @@
 {
   "*.{ts,js}": "eslint --fix",
-  "*": "prettier --ignore-unknown --write"
+  "*.ts": "tsc-files --noEmit",
+  "*": "prettier --ignore-unknown --write",
+  "!.secrets.baseline": "detect-secrets-hook --baseline .secrets.baseline"
 }

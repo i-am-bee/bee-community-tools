@@ -2,10 +2,13 @@
   "name": "bee-community-tools",
   "version": "0.0.1",
   "license": "Apache-2.0",
-  "description": "Bee",
+  "description": "Agentic tools for the Bee Agent Framework",
   "author": "IBM Corp.",
   "contributors": [
-    "Tomas Dvorak <tomas.dvorak@ibm.com>"
+    "Tomas Dvorak <tomas.dvorak@ibm.com>",
+    "Graham White <gwhite@uk.ibm.com>",
+    "James Sutton <james.sutton@uk.ibm.com>",
+    "Michael Desmond <mdesmond@us.ibm.com>"
   ],
   "keywords": [
     "Bee Agent Framework Community Tools"
@@ -52,8 +55,8 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "yarn clean && yarn ts:check && tsup",
-    "ts:check": "tsc --noEmit && tsc -p tsconfig.examples.json --noEmit",
-    "start": "tsx --tsconfig tsconfig.examples.json",
+    "ts:check": "tsc --noEmit",
+    "start": "tsx src/index.ts",
     "lint": "yarn eslint",
     "lint:fix": "yarn eslint --fix",
     "format": "yarn prettier --check .",
@@ -69,8 +72,16 @@
     "release": "release-it",
     "_ensure_env": "cp -n .env.template .env || true"
   },
-  "peerDependencies": {
-    "bee-agent-framework": "^0.0.14"
+  "dependencies": {
+    "@ibm-generative-ai/node-sdk": "~3.2.3",
+    "@langchain/community": "~0.2.28",
+    "@langchain/core": "~0.2.27",
+    "@langchain/langgraph": "~0.0.34",
+    "bee-agent-framework": "^0.0.17",
+    "groq-sdk": "^0.7.0",
+    "ollama": "^0.5.8",
+    "openai": "^4.56.0",
+    "openai-chat-tokens": "^0.2.8"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.4.1",
@@ -84,7 +95,6 @@
     "@types/eslint-config-prettier": "^6.11.3",
     "@types/eslint__js": "^8.42.3",
     "@types/node": "^20.16.1",
-    "bee-agent-framework": "^0.0.14",
     "dotenv": "^16.4.5",
     "eslint": "^9.9.0",
     "eslint-config-prettier": "^9.1.0",
@@ -92,6 +102,7 @@
     "glob": "^11.0.0",
     "husky": "^9.1.5",
     "lint-staged": "^15.2.9",
+    "msw": "^2.4.5",
     "picocolors": "^1.0.1",
     "pino-pretty": "^11.2.2",
     "pino-test": "^1.0.1",
