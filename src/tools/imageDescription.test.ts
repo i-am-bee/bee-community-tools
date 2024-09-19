@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
+import { getEnv } from "bee-agent-framework/internals/env";
+
+import { ImageDescriptionTool } from "@/tools/imageDescription.js";
+
 import { describe, test, expect } from "vitest";
-
-import { ImageDescriptionTool } from "@/tools/imageDescription.ts";
-
 import { setupServer } from "msw/node";
-
 import { http, HttpResponse } from "msw";
 
 const exampleDescription = "This is the image description text.";
-const vllm_api_endpoint: string = process.env.IMAGE_DESC_VLLM_API as string;
+const vllmApiEndpoint = getEnv("IMAGE_DESC_VLLM_API");
 
 const handlers = [
-  http.post(vllm_api_endpoint + "/v1/chat/completions", (_data: any) => {
+  http.post(vllmApiEndpoint + "/v1/chat/completions", (_data: any) => {
     return HttpResponse.json({
       choices: [
         {
