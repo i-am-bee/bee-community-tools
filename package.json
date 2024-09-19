@@ -55,8 +55,8 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "yarn clean && yarn ts:check && tsup",
-    "ts:check": "tsc --noEmit",
-    "start": "tsx src/index.ts",
+    "ts:check": "tsc --noEmit && tsc -p tsconfig.examples.json --noEmit",
+    "start": "tsx --tsconfig tsconfig.examples.json examples/agents/allToolsAgent.ts",
     "lint": "yarn eslint",
     "lint:fix": "yarn eslint --fix",
     "format": "yarn prettier --check .",
