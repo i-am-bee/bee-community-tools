@@ -26,7 +26,7 @@ const exampleDescription = "This is the image description text.";
 const vllmApiEndpoint = getEnv("IMAGE_DESC_VLLM_API");
 
 const handlers = [
-  http.post(vllmApiEndpoint + "/v1/chat/completions", (_data: any) => {
+  http.post(`${vllmApiEndpoint}/v1/chat/completions`, () => {
     return HttpResponse.json({
       choices: [
         {

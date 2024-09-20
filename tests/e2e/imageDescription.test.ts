@@ -49,7 +49,8 @@ describe("ImageDescriptionTool", () => {
         prompt: "Describe the image",
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `[ToolError: Request to Vllm API has failed! Bad Request]`,
+      `ToolError: Request to Vllm API has failed! Bad Request
+    Error: {"object":"error","message":"404, message='Not Found', url=URL('https://en.wikipedia.org/static/images/icons/wikipedia.err')","type":"BadRequestError","param":null,"code":400}`,
     );
   });
 });
