@@ -41,8 +41,8 @@ import { WikipediaTool } from "bee-agent-framework/tools/search/wikipedia";
 
 // contrib tools
 // import { HelloWorldTool } from "@/tools/helloWorld.js";
-import { OpenLibraryTool } from "../../src/tools/openLibrary.js";
-import { ImageDescriptionTool } from "../../src/tools/imageDescription.js";
+import { OpenLibraryTool } from "bee-community-tools/tools/openLibrary";
+import { ImageDescriptionTool } from "bee-community-tools/tools/imageDescription";
 
 Logger.root.level = "silent"; // disable internal logs
 const logger = new Logger({ name: "app", level: "trace" });
