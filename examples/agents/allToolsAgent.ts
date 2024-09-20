@@ -17,7 +17,7 @@
 import "dotenv/config.js";
 import { BAMChatLLM } from "bee-agent-framework/adapters/bam/chat";
 import { BeeAgent } from "bee-agent-framework/agents/bee/agent";
-import { createConsoleReader } from "./helpers/io.js";
+import { createConsoleReader } from "../helpers/io.js";
 import { FrameworkError } from "bee-agent-framework/errors";
 import { TokenMemory } from "bee-agent-framework/memory/tokenMemory";
 import { Logger } from "bee-agent-framework/logger/logger";
@@ -41,8 +41,8 @@ import { WikipediaTool } from "bee-agent-framework/tools/search/wikipedia";
 
 // contrib tools
 // import { HelloWorldTool } from "@/tools/helloWorld.js";
-import { OpenLibraryTool } from "@/tools/openLibrary.js";
-import { ImageDescriptionTool } from "@/tools/imageDescription.js";
+import { OpenLibraryTool } from "../../src/tools/openLibrary.js";
+import { ImageDescriptionTool } from "../../src/tools/imageDescription.js";
 
 Logger.root.level = "silent"; // disable internal logs
 const logger = new Logger({ name: "app", level: "trace" });
@@ -159,5 +159,3 @@ async function runBeeAgent() {
 }
 
 void runBeeAgent();
-
-export * from "./version.js";

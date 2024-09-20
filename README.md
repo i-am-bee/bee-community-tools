@@ -32,20 +32,20 @@ yarn install
 
 ### Run an example agent with tools
 
-We provide an example agent in `src/index.ts` that you can use to test tools.
+We provide example agents for tool usage in `examples/agents/` that you can use to test tools.
 
 ```shell
 yarn start
 ```
 
-The example agent is configured to use a BAM or OpenAI hosted LLM, or a local Ollama LLM.
+The `allToolsAgent` example agent is configured to use a BAM, Watsonx, OpenAI hosted LLM, or a local Ollama LLM.
 If you are using a hosted LLM make sure to create .env (from .env.template) and fill in the necessary API_KEY.
 
 > [!NOTE]
 > The Hello World example tool is not enabled by default.
 
 > [!TIP]
-> Tools can be enabled/disabled in `src/index.ts`
+> Tools can be enabled/disabled in `examples/agents/allToolsAgent.ts`
 
 ## Contribution guidelines
 
