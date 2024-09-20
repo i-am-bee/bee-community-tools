@@ -67,16 +67,12 @@ export class ImageDescriptionTool extends Tool<StringToolOutput, ToolOptions, To
   }
 
   protected async _run(
-    input: ToolInput<this>,
+    { prompt = "Describe this image.", imageUrl }: ToolInput<this>,
     _options?: BaseToolRunOptions,
   ): Promise<StringToolOutput> {
-    if (input.prompt == undefined) {
-      input.prompt = "Describe this image.";
-    }
-
     const imageDescriptionOutput = await this.requestImageDescriptionForURL(
-      input.imageUrl,
-      input.prompt,
+      imageUrl,
+      prompt,
       _options?.signal,
     );
 
