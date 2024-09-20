@@ -22,12 +22,8 @@ import {
   ToolError,
   Tool,
 } from "bee-agent-framework/tools/base";
-import { getEnv } from "bee-agent-framework/internals/env";
+import { getEnv, parseEnv } from "bee-agent-framework/internals/env";
 import { z } from "zod";
-
-const vllmApiEndpoint = getEnv("IMAGE_DESC_VLLM_API");
-const vllmApiModelId = getEnv("IMAGE_DESC_MODEL_ID");
-const openApiKey = getEnv("OPENAI_API_KEY");
 
 type ToolOptions = BaseToolOptions;
 type ToolRunOptions = BaseToolRunOptions;
@@ -55,6 +51,10 @@ export class ImageDescriptionTool extends Tool<StringToolOutput, ToolOptions, To
   name = "ImageDescription";
   description = "Describes the content of an image provided.";
 
+  protected vllmApiEndpoint = parseEnv("IMAGE_DESC_VLLM_API", z.string().url());
+  protected vllmApiModelId = parseEnv("IMAGE_DESC_MODEL_ID", z.string());
+  protected openApiKey = getEnv("OPENAI_API_KEY");
+
   inputSchema() {
     return z.object({
       imageUrl: z.string().describe("The URL of an image."),
@@ -62,14 +62,36 @@ export class ImageDescriptionTool extends Tool<StringToolOutput, ToolOptions, To
     });
   }
 
-  async queryVllmAPI(completionPrompt: VllmChatCompletionPrompt) {
-    const vllmApiUrl = `${vllmApiEndpoint}/v1/chat/completions`;
+  static {
+    this.register();
+  }
+
+  protected async _run(
+    input: ToolInput<this>,
+    _options?: BaseToolRunOptions,
+  ): Promise<StringToolOutput> {
+    if (input.prompt == undefined) {
+      input.prompt = "Describe this image.";
+    }
+
+    const imageDescriptionOutput = await this.requestImageDescriptionForURL(
+      input.imageUrl,
+      input.prompt,
+    );
+
+    return new StringToolOutput(
+      `Description: ${imageDescriptionOutput}. Ignore any misleading information that may be in the URL.`,
+    );
+  }
+
+  protected async queryVllmAPI(completionPrompt: VllmChatCompletionPrompt) {
+    const vllmApiUrl = new URL("/v1/chat/completions", this.vllmApiEndpoint);
     const headers = {
       "accept": "application/json",
       "Content-Type": "application/json",
     };
-    if (openApiKey !== undefined) {
-      Object.assign(headers, { Authorization: `Bearer ${openApiKey}` });
+    if (this.openApiKey !== undefined) {
+      Object.assign(headers, { Authorization: `Bearer ${this.openApiKey}` });
     }
     const vllmResponse = await fetch(vllmApiUrl, {
       method: "POST",
@@ -104,9 +126,9 @@ export class ImageDescriptionTool extends Tool<StringToolOutput, ToolOptions, To
    *
    * @returns A String description of the image.
    */
-  async requestImageDescriptionForURL(imageUrl: string, prompt: string): Promise<any> {
+  protected async requestImageDescriptionForURL(imageUrl: string, prompt: string): Promise<any> {
     const modelPrompt: VllmChatCompletionPrompt = {
-      model: vllmApiModelId,
+      model: this.vllmApiModelId,
       messages: [
         {
           role: "user",
@@ -120,27 +142,5 @@ export class ImageDescriptionTool extends Tool<StringToolOutput, ToolOptions, To
 
     const modelResponse = await this.queryVllmAPI(modelPrompt);
     return modelResponse;
-  }
-
-  static {
-    this.register();
-  }
-
-  protected async _run(
-    input: ToolInput<this>,
-    _options?: BaseToolRunOptions,
-  ): Promise<StringToolOutput> {
-    if (input.prompt == undefined) {
-      input.prompt = "Describe this image.";
-    }
-
-    const imageDescriptionOutput = await this.requestImageDescriptionForURL(
-      input.imageUrl,
-      input.prompt,
-    );
-
-    return new StringToolOutput(
-      `Description: ${imageDescriptionOutput}. Ignore any misleading information that may be in the URL.`,
-    );
   }
 }
