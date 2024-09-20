@@ -77,6 +77,7 @@ export class ImageDescriptionTool extends Tool<StringToolOutput, ToolOptions, To
     const imageDescriptionOutput = await this.requestImageDescriptionForURL(
       input.imageUrl,
       input.prompt,
+      _options?.signal,
     );
 
     return new StringToolOutput(
@@ -107,7 +108,7 @@ export class ImageDescriptionTool extends Tool<StringToolOutput, ToolOptions, To
     });
   }
 
-  protected async queryVllmAPI(completionPrompt: VllmChatCompletionPrompt) {
+  protected async queryVllmAPI(completionPrompt: VllmChatCompletionPrompt, signal?: AbortSignal) {
     const vllmApiUrl = new URL("/v1/chat/completions", this.vllmApiEndpoint);
     const headers = {
       "accept": "application/json",
@@ -120,6 +121,7 @@ export class ImageDescriptionTool extends Tool<StringToolOutput, ToolOptions, To
       method: "POST",
       body: JSON.stringify(completionPrompt),
       headers: headers,
+      signal: signal,
     });
 
     if (!vllmResponse.ok) {
@@ -149,7 +151,11 @@ export class ImageDescriptionTool extends Tool<StringToolOutput, ToolOptions, To
    *
    * @returns A String description of the image.
    */
-  protected async requestImageDescriptionForURL(imageUrl: string, prompt: string): Promise<any> {
+  protected async requestImageDescriptionForURL(
+    imageUrl: string,
+    prompt: string,
+    signal?: AbortSignal,
+  ): Promise<any> {
     const modelPrompt: VllmChatCompletionPrompt = {
       model: this.vllmApiModelId,
       messages: [
@@ -163,7 +169,7 @@ export class ImageDescriptionTool extends Tool<StringToolOutput, ToolOptions, To
       ],
     };
 
-    const modelResponse = await this.queryVllmAPI(modelPrompt);
+    const modelResponse = await this.queryVllmAPI(modelPrompt, signal);
     return modelResponse;
   }
 }
