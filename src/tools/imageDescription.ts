@@ -84,6 +84,29 @@ export class ImageDescriptionTool extends Tool<StringToolOutput, ToolOptions, To
     );
   }
 
+  createSnapshot() {
+    return {
+      ...super.createSnapshot(),
+      vllmApiEndpoint: this.vllmApiEndpoint,
+      vllmApiModelId: this.vllmApiModelId,
+      openApiKey: this.openApiKey, // pragma: allowlist secret
+    };
+  }
+
+  loadSnapshot({
+    vllmApiEndpoint,
+    vllmApiModelId,
+    openApiKey,
+    ...snapshot
+  }: ReturnType<typeof this.createSnapshot>) {
+    super.loadSnapshot(snapshot);
+    Object.assign(this, {
+      vllmApiEndpoint,
+      vllmApiModelId,
+      openApiKey,
+    });
+  }
+
   protected async queryVllmAPI(completionPrompt: VllmChatCompletionPrompt) {
     const vllmApiUrl = new URL("/v1/chat/completions", this.vllmApiEndpoint);
     const headers = {
