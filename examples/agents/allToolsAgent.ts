@@ -43,6 +43,12 @@ import { WikipediaTool } from "bee-agent-framework/tools/search/wikipedia";
 // import { HelloWorldTool } from "@/tools/helloWorld.js";
 import { OpenLibraryTool } from "bee-community-tools/tools/openLibrary";
 import { ImageDescriptionTool } from "bee-community-tools/tools/imageDescription";
+import { AirtableTool } from "bee-community-tools/tools/airtable";
+
+const AIRTABLE_TOKEN: string = process.env.AIRTABLE_TOKEN as string;
+const AIRTABLE_BASE: string = process.env.AIRTABLE_BASE as string;
+
+const airtableTool = new AirtableTool({ apiToken: AIRTABLE_TOKEN, baseId: AIRTABLE_BASE });
 
 Logger.root.level = "silent"; // disable internal logs
 const logger = new Logger({ name: "app", level: "trace" });
@@ -80,6 +86,7 @@ async function runBeeAgent() {
       // new HelloWorldTool(),
       new OpenLibraryTool(),
       new ImageDescriptionTool(),
+      airtableTool,
     ],
     templates: {
       user: new PromptTemplate({
