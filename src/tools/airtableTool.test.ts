@@ -21,7 +21,7 @@ import { setupServer } from "msw/node";
 
 import { http, HttpResponse } from "msw";
 
-import exampleData from "./airtableDataExample.json";
+import exampleData from "./airtableTestData.json";
 
 const testToolOpts: AirtableToolOptions = { apiToken: "test_api_token", baseId: "test_base_id" };
 
