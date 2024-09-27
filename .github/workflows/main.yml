@@ -37,7 +37,4 @@ jobs:
       - name: Build
         run: yarn build
       - name: Unit Tests
-        env:
-          IMAGE_DESC_VLLM_API: ${{ secrets.IMAGE_DESC_VLLM_API }}
-          IMAGE_DESC_MODEL_ID: ${{ secrets.IMAGE_DESC_MODEL_ID }}
         run: yarn test:unit
