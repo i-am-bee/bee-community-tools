@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-import { getEnv } from "bee-agent-framework/internals/env";
-
 import { ImageDescriptionTool } from "@/tools/imageDescription.js";
 
-import { describe, test, expect } from "vitest";
+import { afterAll, afterEach, beforeAll, expect, describe, test, vi } from "vitest";
 import { setupServer } from "msw/node";
 import { http, HttpResponse } from "msw";
 
 const exampleDescription = "This is the image description text.";
-const vllmApiEndpoint = getEnv("IMAGE_DESC_VLLM_API");
 
 const handlers = [
-  http.post(`${vllmApiEndpoint}/v1/chat/completions`, () => {
+  http.post(`https://api.openai.com/v1/chat/completions`, () => {
     return HttpResponse.json({
       choices: [
         {
@@ -43,6 +40,9 @@ const server = setupServer(...handlers);
 
 describe("ImageDescriptionTool", () => {
   beforeAll(() => {
+    vi.stubEnv("IMAGE_DESC_VLLM_API", "https://api.openai.com");
+    vi.stubEnv("IMAGE_DESC_MODEL_ID", "llava-hf/llama3-llava-next-8b-hf");
+    vi.stubEnv("OPENAI_API_KEY", "abc123");
     server.listen();
   });
 
@@ -52,6 +52,7 @@ describe("ImageDescriptionTool", () => {
 
   afterAll(() => {
     server.close();
+    vi.unstubAllEnvs();
   });
 
   test("make a request to the vllm backend to describe an image", async () => {
