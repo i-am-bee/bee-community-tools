@@ -20,13 +20,12 @@ import {
   JSONToolOutput,
   ToolInput,
   Tool,
+  ToolError,
 } from "bee-agent-framework/tools/base";
 import { z } from "zod";
-import Airtable, { FieldSet, Records, SelectOptions } from "airtable";
+import Airtable, { FieldSet, Records } from "airtable";
 
 type ToolRunOptions = BaseToolRunOptions;
-
-const airtableApi = "https://api.airtable.com";
 
 interface SummarisedAirtableFieldSchema {
   name: string;
@@ -56,9 +55,9 @@ export interface AirtableToolOptions extends BaseToolOptions {
  * The data is retuned in JSON form to the agent as it would be from the API.
  */
 export class AirtableTool extends Tool<JSONToolOutput<any>, AirtableToolOptions, ToolRunOptions> {
-  airtable: Airtable;
-  base: Airtable.Base;
-  options: AirtableToolOptions;
+  public readonly airtable: Airtable;
+  public readonly base: Airtable.Base;
+  airtableApi = "https://api.airtable.com";
 
   name = "Airtable";
   description =
@@ -88,22 +87,25 @@ export class AirtableTool extends Tool<JSONToolOutput<any>, AirtableToolOptions,
     });
   }
 
-  public constructor(options: AirtableToolOptions) {
+  static {
+    this.register();
+  }
+
+  public constructor(public readonly options: AirtableToolOptions) {
     super(options);
-    this.options = options;
-    this.airtable = new Airtable({ endpointUrl: airtableApi, apiKey: options.apiToken }); // pragma: allowlist secret
+    this.airtable = new Airtable({ endpointUrl: this.airtableApi, apiKey: options.apiToken }); // pragma: allowlist secret
     this.base = this.airtable.base(options.baseId);
   }
 
   protected async _run(input: ToolInput<this>, _options?: BaseToolRunOptions) {
     if (input.action === "GET_SCHEMA") {
-      const response = await this.getBaseTableSchema();
+      const response = await this.getBaseTableSchema(_options?.signal);
       return new JSONToolOutput(response);
     } else if (input.action === "QUERY_TABLE" && input.table != undefined) {
       const response = await this.getTableContents(input.table, input.fields, input.filterFormula);
       return new JSONToolOutput(response);
     } else {
-      throw new Error("Invalid Action.");
+      throw new ToolError("Invalid Action.");
     }
   }
 
@@ -114,34 +116,34 @@ export class AirtableTool extends Tool<JSONToolOutput<any>, AirtableToolOptions,
    * from the HTTP API.
    * @returns - SummarisedAirtableTableSchema
    */
-  private async getBaseTableSchema(): Promise<SummarisedAirtableTableSchema[]> {
-    const atResponse = await fetch(`${airtableApi}/v0/meta/bases/${this.options.baseId}/tables`, {
-      headers: {
-        Authorization: `Bearer ${this.options.apiToken}`,
+  private async getBaseTableSchema(signal?: AbortSignal): Promise<SummarisedAirtableTableSchema[]> {
+    const atResponse = await fetch(
+      `${this.airtableApi}/v0/meta/bases/${this.options.baseId}/tables`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.options.apiToken}`,
+        },
+        signal: signal,
       },
-    });
+    );
 
     if (atResponse.ok) {
       const schemadata = await atResponse.json();
-      const tableSchema: SummarisedAirtableTableSchema[] = [];
-      for (const table of schemadata.tables) {
-        const tableData: SummarisedAirtableTableSchema = {
+      const tableSchema: SummarisedAirtableTableSchema[] = schemadata.tables.map(
+        (table: { name: any; id: any; description: any; fields: any[] }) => ({
           name: table.name,
           id: table.id,
-          fields: [],
-        };
-        if (table.description != undefined) {
-          tableData.description = table.description;
-        }
-        for (const field of table.fields) {
-          tableData.fields.push({ name: field.name, type: field.type });
-        }
-        tableSchema.push(tableData);
-      }
+          description: table.description,
+          fields: table.fields.map((field: SummarisedAirtableFieldSchema) => ({
+            name: field.name,
+            type: field.type,
+          })),
+        }),
+      );
 
       return tableSchema;
     } else {
-      throw new Error(`Error occured getting airtable base schema: ${atResponse.text()}`);
+      throw new ToolError(`Error occured getting airtable base schema: ${atResponse.text()}`);
     }
   }
 
@@ -162,24 +164,25 @@ export class AirtableTool extends Tool<JSONToolOutput<any>, AirtableToolOptions,
     fields?: string[],
     filterFormula?: string,
   ): Promise<Records<FieldSet>> {
-    const selectOpts: SelectOptions<FieldSet> = {};
-    if (fields != undefined) {
-      selectOpts.fields = fields;
-    }
-    if (filterFormula != undefined) {
-      selectOpts.filterByFormula = filterFormula;
-    }
-    return new Promise((resolve, reject) => {
-      this.base(tableId)
-        .select(selectOpts)
-        .all()
-        .then((records: Records<FieldSet>) => {
-          const results = records.map((rec) => rec._rawJson);
-          resolve(results);
-        })
-        .catch((err: string) => {
-          reject(err);
-        });
+    return this.base(tableId)
+      .select({ fields: fields, filterByFormula: filterFormula })
+      .all()
+      .then((records: Records<FieldSet>) => records.map((rec) => rec._rawJson));
+  }
+
+  createSnapshot() {
+    return {
+      ...super.createSnapshot(),
+      airtableApi: this.airtableApi,
+      base: this.base,
+    };
+  }
+
+  loadSnapshot({ airtableApi, base, ...snapshot }: ReturnType<typeof this.createSnapshot>) {
+    super.loadSnapshot(snapshot);
+    Object.assign(this, {
+      airtableApi,
+      base,
     });
   }
 }
