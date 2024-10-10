@@ -19,6 +19,7 @@ The tools in this repository are additional to those provided within the core be
 | Hello World       | Trivial example tool                                    |
 | Image Description | Use an LLM to get a text description for an image       |
 | Open Library      | Connect to the Open Library for information about books |
+| Airtable          | Query the tables within an airtable base                |
 
 ➕ [Request](https://github.com/i-am-bee/bee-community-tools/discussions)
 
