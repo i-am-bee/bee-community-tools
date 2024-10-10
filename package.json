@@ -1,6 +1,6 @@
 {
   "name": "bee-community-tools",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "Apache-2.0",
   "description": "Agentic tools for the Bee Agent Framework",
   "author": "IBM Corp.",
@@ -92,6 +92,7 @@
     "@types/eslint-config-prettier": "^6.11.3",
     "@types/eslint__js": "^8.42.3",
     "@types/node": "^20.16.1",
+    "airtable": "^0.12.2",
     "bee-agent-framework": "^0.0.17",
     "dotenv": "^16.4.5",
     "eslint": "^9.9.0",

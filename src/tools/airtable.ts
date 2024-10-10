@@ -23,7 +23,7 @@ import {
   ToolError,
 } from "bee-agent-framework/tools/base";
 import { z } from "zod";
-import Airtable, { FieldSet, Records } from "airtable";
+import Airtable, { FieldSet, Records, SelectOptions } from "airtable";
 
 type ToolRunOptions = BaseToolRunOptions;
 
@@ -164,8 +164,16 @@ export class AirtableTool extends Tool<JSONToolOutput<any>, AirtableToolOptions,
     fields?: string[],
     filterFormula?: string,
   ): Promise<Records<FieldSet>> {
+    const selectOpts: SelectOptions<FieldSet> = {};
+    if (fields != undefined) {
+      selectOpts.fields = fields;
+    }
+    if (filterFormula != undefined) {
+      selectOpts.filterByFormula = filterFormula;
+    }
+
     return this.base(tableId)
-      .select({ fields: fields, filterByFormula: filterFormula })
+      .select(selectOpts)
       .all()
       .then((records: Records<FieldSet>) => records.map((rec) => rec._rawJson));
   }
