@@ -38,4 +38,6 @@ jobs:
           GENAI_API_KEY: ${{ secrets.GENAI_API_KEY }}
           IMAGE_DESC_VLLM_API: ${{ secrets.IMAGE_DESC_VLLM_API }}
           IMAGE_DESC_MODEL_ID: ${{ secrets.IMAGE_DESC_MODEL_ID }}
+          AIRTABLE_BASE: ${{ secrets.AIRTABLE_BASE }}
+          AIRTABLE_TOKEN: ${{ secrets.AIRTABLE_TOKEN }}
         run: yarn test:e2e
