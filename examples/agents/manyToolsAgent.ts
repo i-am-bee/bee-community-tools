@@ -25,7 +25,6 @@ import { OllamaChatLLM } from "bee-agent-framework/adapters/ollama/chat";
 import { OpenAIChatLLM } from "bee-agent-framework/adapters/openai/chat";
 import { PromptTemplate } from "bee-agent-framework/template";
 import { WatsonXChatLLM } from "bee-agent-framework/adapters/watsonx/chat";
-import { parseEnv } from "bee-agent-framework/internals/env";
 import { z } from "zod";
 import {
   BeeSystemPrompt,
@@ -44,10 +43,6 @@ import { WikipediaTool } from "bee-agent-framework/tools/search/wikipedia";
 // import { HelloWorldTool } from "@/tools/helloWorld.js";
 import { OpenLibraryTool } from "bee-community-tools/tools/openLibrary";
 import { ImageDescriptionTool } from "bee-community-tools/tools/imageDescription";
-import { AirtableTool } from "bee-community-tools/tools/airtable";
-
-const AIRTABLE_TOKEN: string = parseEnv("AIRTABLE_TOKEN", z.string());
-const AIRTABLE_BASE: string = parseEnv("AIRTABLE_BASE", z.string());
 
 Logger.root.level = "silent"; // disable internal logs
 const logger = new Logger({ name: "app", level: "trace" });
@@ -85,7 +80,6 @@ async function runBeeAgent() {
       // new HelloWorldTool(),
       new OpenLibraryTool(),
       new ImageDescriptionTool(),
-      new AirtableTool({ apiToken: AIRTABLE_TOKEN, baseId: AIRTABLE_BASE }),
     ],
     templates: {
       user: new PromptTemplate({
