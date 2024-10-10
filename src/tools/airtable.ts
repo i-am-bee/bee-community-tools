@@ -27,12 +27,12 @@ import Airtable, { FieldSet, Records, SelectOptions } from "airtable";
 
 type ToolRunOptions = BaseToolRunOptions;
 
-interface SummarisedAirtableFieldSchema {
+export interface SummarisedAirtableFieldSchema {
   name: string;
   type?: string;
 }
 
-interface SummarisedAirtableTableSchema {
+export interface SummarisedAirtableTableSchema {
   name: string;
   id: string;
   description?: string;
