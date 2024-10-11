@@ -56,7 +56,7 @@
     "clean": "rimraf dist",
     "build": "yarn clean && yarn ts:check && tsup",
     "ts:check": "tsc --noEmit && tsc -p tsconfig.examples.json --noEmit",
-    "start": "tsx --tsconfig tsconfig.examples.json examples/agents/allToolsAgent.ts",
+    "start": "tsx --tsconfig tsconfig.examples.json examples/agents/manyToolsAgent.ts",
     "lint": "yarn eslint",
     "lint:fix": "yarn eslint --fix",
     "format": "yarn prettier --check .",
@@ -73,6 +73,7 @@
     "_ensure_env": "cp -n .env.template .env || true"
   },
   "peerDependencies": {
+    "airtable": "^0.12.2",
     "bee-agent-framework": "^0.0.17"
   },
   "devDependencies": {
@@ -91,6 +92,7 @@
     "@types/eslint-config-prettier": "^6.11.3",
     "@types/eslint__js": "^8.42.3",
     "@types/node": "^20.16.1",
+    "airtable": "^0.12.2",
     "bee-agent-framework": "^0.0.17",
     "dotenv": "^16.4.5",
     "eslint": "^9.9.0",
@@ -118,8 +120,7 @@
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.2.0",
     "vite-tsconfig-paths": "^5.0.1",
-    "vitest": "^2.0.5",
-    "yaml": "^2.5.0"
+    "vitest": "^2.0.5"
   },
   "dependencies": {
     "zod": "^3.23.8"

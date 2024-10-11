@@ -1,0 +1,81 @@
+{
+  "schema": {
+    "tables": [
+      {
+        "id": "tblzpKUktDj2rN2Bs",
+        "name": "model_lookup",
+        "description": "Python script to pull from Hugging Face API will update the day after a new ModelURL is added to this table",
+        "primaryFieldId": "fldZ9cELYOkV9ilgN",
+        "fields": [
+          {
+            "type": "url",
+            "id": "fldZ9cELYOkV9ilgN",
+            "name": "ModelURL"
+          },
+          {
+            "type": "multipleRecordLinks",
+            "options": {
+              "linkedTableId": "tblxHFbBgT6Ct6CC1",
+              "isReversed": false,
+              "prefersSingleRecordLink": false,
+              "inverseLinkFieldId": "fldmymopvMUXDHjnt"
+            },
+            "id": "fldotrqIjdo1gJ3sr",
+            "name": "ModelProvider"
+          },
+          {
+            "type": "multipleLookupValues",
+            "options": {
+              "isValid": true,
+              "recordLinkFieldId": "fldotrqIjdo1gJ3sr",
+              "fieldIdInLinkedTable": "fldAZrelFqSOoHnEz",
+              "result": {
+                "type": "singleLineText"
+              }
+            },
+            "id": "fldJBr6E3ewbWSjGh",
+            "name": "ModelProviderName"
+          }
+        ],
+        "views": [
+          {
+            "id": "viwMe6eLrcXtFqLEm",
+            "name": "Grid view",
+            "type": "grid"
+          }
+        ]
+      }
+    ]
+  },
+  "tableget": {
+    "records": [
+      {
+        "id": "recwOidCakFZZ3lRz",
+        "createdTime": "2024-08-15T08:27:49.000Z",
+        "fields": {
+          "ModelURL": "https://huggingface.co/api/models?author=mistralai",
+          "ModelProvider": ["recOhbN9S3mXOSkxi"],
+          "ModelProviderName": ["Mistral"]
+        }
+      },
+      {
+        "id": "rec9UQAKpvFUc2gsB",
+        "createdTime": "2024-08-15T08:27:49.000Z",
+        "fields": {
+          "ModelURL": "https://huggingface.co/api/models?author=meta-llama",
+          "ModelProvider": ["receEXRIMroOQ65kv"],
+          "ModelProviderName": ["Meta-llama"]
+        }
+      },
+      {
+        "id": "recGfErjneyVVH412",
+        "createdTime": "2024-08-15T08:27:49.000Z",
+        "fields": {
+          "ModelURL": "https://huggingface.co/api/models?search=gemma-2&author=google",
+          "ModelProvider": ["recTQ0jjEd1TUxlOc"],
+          "ModelProviderName": ["Google"]
+        }
+      }
+    ]
+  }
+}
