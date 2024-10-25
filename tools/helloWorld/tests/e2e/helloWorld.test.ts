@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-describe("Test", () => {
+describe("Test e2e Test", () => {
   it("Runs", async () => {
     expect(1).toBe(1);
   });

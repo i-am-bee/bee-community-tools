@@ -7,7 +7,7 @@ import tsConfig from "./tsconfig.json";
 import { JscTarget } from "@swc/types";
 
 export default defineConfig({
-  entry: ["src/**/*.{ts,js}", "!src/**/*.test.ts"],
+  entry: ["tools/**/*.{ts,js}", "!tools/**/*.test.ts"],
   tsconfig: "./tsconfig.json",
   sourcemap: true,
   dts: true,

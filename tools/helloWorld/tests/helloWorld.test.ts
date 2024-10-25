@@ -14,10 +14,20 @@
  * limitations under the License.
  */
 
-import { Version } from "@/version.js";
+import { describe, test } from "vitest";
+// eslint-disable-next-line no-restricted-imports
+import { HelloWorldTool } from "../helloWorld.js";
 
-describe("Version", () => {
-  it("has a valid version", () => {
-    expect(Version).toBeTruthy();
+describe("HelloWorldTool Unit Test", () => {
+  test("HelloWorld", () => {
+    const helloWorldTool = new HelloWorldTool();
+    helloWorldTool
+      .run({ identifier: "Bee" })
+      .then((res) => {
+        expect(res.result).equals("Hello, Bee");
+      })
+      .catch((err) => {
+        throw new Error(err);
+      });
   });
 });

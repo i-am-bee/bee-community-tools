@@ -15,7 +15,8 @@
  */
 
 import { describe, test } from "vitest";
-import { OpenLibraryTool } from "./openLibrary.js";
+// eslint-disable-next-line no-restricted-imports
+import { OpenLibraryTool } from "../openLibrary.js";
 import { setupServer } from "msw/node";
 import { http, HttpResponse } from "msw";
 import { ToolError } from "bee-agent-framework/tools/base";
@@ -57,7 +58,7 @@ const server = setupServer(
   }),
 );
 
-describe("OpenLibraryTool", () => {
+describe("OpenLibraryTool Unit Test", () => {
   const openLibraryTool = new OpenLibraryTool();
 
   beforeAll(() => {
