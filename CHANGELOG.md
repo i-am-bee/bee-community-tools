@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0 (2024-10-29)
+
+- chore: add env vars for unit tests ([10621d4](https://github.com/i-am-bee/bee-community-tools/commit/10621d4))
+- chore: rename file ([e794961](https://github.com/i-am-bee/bee-community-tools/commit/e794961))
+- chore: upgrade dependencies ([c04a5f2](https://github.com/i-am-bee/bee-community-tools/commit/c04a5f2)), closes [#12](https://github.com/i-am-bee/bee-community-tools/issues/12)
+- feat: airtable query tool (#10) ([c473aad](https://github.com/i-am-bee/bee-community-tools/commit/c473aad)), closes [#10](https://github.com/i-am-bee/bee-community-tools/issues/10)
+- fix: not stubbing env vars in unit tests ([3016ba6](https://github.com/i-am-bee/bee-community-tools/commit/3016ba6))
+
 ## 0.0.2 (2024-09-26)
 
 ### Features
