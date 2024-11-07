@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-import { AirtableTool } from "@/tools/airtable.js";
+// eslint-disable-next-line no-restricted-imports
+import { AirtableTool } from "../../airtable.js";
 import { beforeEach, expect } from "vitest";
 
 const AIRTABLE_TOKEN: string = process.env.AIRTABLE_TOKEN as string;
 const AIRTABLE_BASE: string = process.env.AIRTABLE_BASE as string;
 
-describe("AirtableTool", () => {
+describe("AirtableTool e2e Test", () => {
   let instance: AirtableTool;
 
   beforeEach(() => {

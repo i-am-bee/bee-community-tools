@@ -17,7 +17,8 @@
 import "dotenv/config.js";
 import { BAMChatLLM } from "bee-agent-framework/adapters/bam/chat";
 import { BeeAgent } from "bee-agent-framework/agents/bee/agent";
-import { createConsoleReader } from "../helpers/io.js";
+// eslint-disable-next-line no-restricted-imports
+import { createConsoleReader } from "../../examples/helpers/io.js";
 import { FrameworkError } from "bee-agent-framework/errors";
 import { TokenMemory } from "bee-agent-framework/memory/tokenMemory";
 import { Logger } from "bee-agent-framework/logger/logger";
@@ -39,7 +40,8 @@ import { DuckDuckGoSearchTool } from "bee-agent-framework/tools/search/duckDuckG
 import { WikipediaTool } from "bee-agent-framework/tools/search/wikipedia";
 
 // AirTable tool
-import { AirtableTool } from "bee-community-tools/tools/airtable";
+// eslint-disable-next-line no-restricted-imports
+import { AirtableTool } from "../../airtable/airtable.js";
 
 const AIRTABLE_TOKEN: string = parseEnv("AIRTABLE_TOKEN", z.string());
 const AIRTABLE_BASE: string = parseEnv("AIRTABLE_BASE", z.string());

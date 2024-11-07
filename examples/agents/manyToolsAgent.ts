@@ -40,9 +40,9 @@ import { WikipediaTool } from "bee-agent-framework/tools/search/wikipedia";
 // import { ArXivTool } from "bee-agent-framework/tools/arxiv";
 
 // contrib tools
-// import { HelloWorldTool } from "@/tools/helloWorld.js";
-import { OpenLibraryTool } from "bee-community-tools/tools/openLibrary";
-import { ImageDescriptionTool } from "bee-community-tools/tools/imageDescription";
+// import { HelloWorldTool } from "./tools/helloWorld.js";
+import { OpenLibraryTool } from "bee-community-tools/tools/openLibrary/openLibrary";
+import { ImageDescriptionTool } from "bee-community-tools/tools/imageDescriptions/imageDescription";
 
 Logger.root.level = "silent"; // disable internal logs
 const logger = new Logger({ name: "app", level: "trace" });

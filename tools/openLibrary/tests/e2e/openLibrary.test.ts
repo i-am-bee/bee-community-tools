@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-import { OpenLibraryTool } from "@/tools/openLibrary.js";
+// eslint-disable-next-line no-restricted-imports
+import { OpenLibraryTool } from "../../openLibrary.js";
 
 import { beforeEach, expect } from "vitest";
 
-describe("Open Library", () => {
+describe("Open Library e2e Test", () => {
   let instance: OpenLibraryTool;
 
   beforeEach(() => {

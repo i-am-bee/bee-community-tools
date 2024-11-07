@@ -14,19 +14,10 @@
  * limitations under the License.
  */
 
-import { describe, test } from "vitest";
-import { HelloWorldTool } from "./helloWorld.js";
+import { Version } from "./version.js";
 
-describe("HelloWorldTool", () => {
-  test("HelloWorld", () => {
-    const helloWorldTool = new HelloWorldTool();
-    helloWorldTool
-      .run({ identifier: "Bee" })
-      .then((res) => {
-        expect(res.result).equals("Hello, Bee");
-      })
-      .catch((err) => {
-        throw new Error(err);
-      });
+describe("Version Unit Test", () => {
+  it("has a valid version", () => {
+    expect(Version).toBeTruthy();
   });
 });
