@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-import { ImageDescriptionTool } from "@/tools/imageDescription.js";
+// eslint-disable-next-line no-restricted-imports
+import { ImageDescriptionTool } from "../../imageDescription.js";
 
 import { beforeEach, expect } from "vitest";
 
-describe("ImageDescriptionTool", () => {
+describe("ImageDescriptionTool e2e Test", () => {
   let instance: ImageDescriptionTool;
 
   beforeEach(() => {

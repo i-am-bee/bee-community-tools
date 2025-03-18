@@ -15,7 +15,7 @@
  */
 
 import { describe, test } from "vitest";
-import { AirtableTool, AirtableToolOptions } from "@/tools/airtable.js";
+import { AirtableTool, AirtableToolOptions } from "./airtable.js";
 
 import { setupServer } from "msw/node";
 

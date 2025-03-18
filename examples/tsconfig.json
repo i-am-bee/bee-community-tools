@@ -4,8 +4,10 @@
     "baseUrl": "..",
     "rootDir": "..",
     "paths": {
-      "bee-community-tools/*": ["./src/*.js"],
-      "@/*": ["./src/*"]
+      "bee-community-tools/tools/*": ["./tools/*.js"],
+      "@/*": ["./src/*"],
+      "@tools/*": ["./tools/*"],
+      "@helpers/*": ["./tools/examples/helpers/*"]
     }
   },
   "references": [{ "path": "./src" }],

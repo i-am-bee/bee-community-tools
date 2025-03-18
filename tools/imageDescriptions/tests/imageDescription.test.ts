@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import { ImageDescriptionTool } from "@/tools/imageDescription.js";
+// eslint-disable-next-line no-restricted-imports
+import { ImageDescriptionTool } from "../imageDescription.js";
 
 import { afterAll, afterEach, beforeAll, expect, describe, test, vi } from "vitest";
 import { setupServer } from "msw/node";
@@ -38,7 +39,7 @@ const handlers = [
 
 const server = setupServer(...handlers);
 
-describe("ImageDescriptionTool", () => {
+describe("ImageDescriptionTool Unit Test", () => {
   beforeAll(() => {
     vi.stubEnv("IMAGE_DESC_VLLM_API", "https://api.openai.com");
     vi.stubEnv("IMAGE_DESC_MODEL_ID", "llava-hf/llama3-llava-next-8b-hf");
